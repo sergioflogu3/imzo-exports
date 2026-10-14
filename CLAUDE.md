@@ -10,6 +10,7 @@ Web estática para exponer los productos de un vendedor local, sin login ni serv
 
 - HTML, CSS y JavaScript puros: sin frameworks, librerías, npm, bundler ni build.
 - `index.html` (estructura), `styles.css` (estilos), `app.js` (lógica de renderizado), `public/img/` (imágenes de productos).
+- `productos.json` (datos editables), `productos.js` (copia generada que carga el HTML; no editar a mano), `generar-productos.js` (script Node que crea ambos a partir de `public/img/`).
 - Debe funcionar abriendo `index.html` con doble clic (`file://`): nada de módulos ES (`type="module"`), `fetch` a archivos locales ni nada que requiera servidor.
 
 ## Convenciones
@@ -21,7 +22,9 @@ Web estática para exponer los productos de un vendedor local, sin login ni serv
 
 ## Datos de productos
 
-- Arreglo de objetos estático dentro de `app.js` con el formato `{ id, nombre, descripcion, precio, imagen }`.
+- Los productos viven en `productos.json` con el formato `{ id, nombre, descripcion, precio, imagen }` (`precio` es número; `0` se muestra como "Precio a consultar").
+- Tras agregar/quitar fotos o editar `productos.json`, ejecutar `node generar-productos.js`: agrega fotos nuevas con valores por defecto, quita productos cuya imagen ya no existe y conserva las ediciones (la clave es la ruta `imagen`).
+- `productos.js` existe porque con `file://` no funciona `fetch` ni listar carpetas; se carga con un `<script>` normal antes de `app.js`.
 - Sin backend ni pasarela de pago: es un catálogo expositivo/informativo.
 
 ## Imágenes y rutas (fácil equivocarse)
@@ -40,12 +43,12 @@ Web estática para exponer los productos de un vendedor local, sin login ni serv
 
 - ✅ Siempre: mantener rutas relativas locales y textos en español.
 - ⚠️ Preguntar antes: crear archivos nuevos, cambiar la estructura del objeto de productos.
-- 🚫 Nunca: añadir dependencias (Bootstrap, Tailwind), frameworks o un paso de build.
+- 🚫 Nunca: añadir dependencias (Bootstrap, Tailwind), frameworks o un paso de build. Única excepción: `generar-productos.js`, con Node puro (solo `fs` y `path`), sin npm ni dependencias.
 - ✅ Siempre: actualizar `MEMORY.md` al terminar cada tarea. 
 
 ## Verificación
 
-- No hay tests ni lint. Probar abriendo `index.html` en el navegador con doble clic.
+- No hay tests ni lint. Ejecutar `node generar-productos.js` y luego abrir `index.html` en el navegador con doble clic.
 - Verificar que el enlace de contacto (`wa.me` o `tel:`) abra correctamente la aplicación correspondiente.
 
 ## Memoria

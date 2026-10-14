@@ -1,52 +1,11 @@
 // =====================================================
 // 1. DATOS DE LOS PRODUCTOS
-// Para agregar, quitar o editar productos, cambia solo este arreglo.
-// La imagen debe estar en la carpeta public/img/
+// Los productos ya no están aquí: vienen de productos.js,
+// que se genera a partir de productos.json con:
+//   node generar-productos.js
+// Para cambiar nombres, descripciones o precios, edita productos.json
+// y vuelve a ejecutar ese comando.
 // =====================================================
-const productos = [
-  {
-    id: 1,
-    nombre: "Miel de abeja pura",
-    descripcion: "Frasco de 500 g, cosechada en los valles. Sin azúcar añadida.",
-    precio: 45,
-    imagen: "public/img/miel.jpg",
-  },
-  {
-    id: 2,
-    nombre: "Café de altura molido",
-    descripcion: "Bolsa de 250 g, tostado medio. Aroma intenso y suave al paladar.",
-    precio: 38,
-    imagen: "public/img/cafe.jpg",
-  },
-  {
-    id: 3,
-    nombre: "Chocolate artesanal",
-    descripcion: "Barra de 100 g con 70% de cacao amazónico.",
-    precio: 25,
-    imagen: "public/img/chocolate.jpg",
-  },
-  {
-    id: 4,
-    nombre: "Quinua real",
-    descripcion: "Bolsa de 1 kg, lavada y lista para cocinar.",
-    precio: 30,
-    imagen: "public/img/quinua.jpg",
-  },
-  {
-    id: 5,
-    nombre: "Mermelada de frutilla",
-    descripcion: "Frasco de 350 g, hecha en casa con fruta fresca.",
-    precio: 22,
-    imagen: "public/img/mermelada.jpg",
-  },
-  {
-    id: 6,
-    nombre: "Canasta de regalo",
-    descripcion: "Incluye miel, café, chocolate y mermelada. Ideal para regalar.",
-    precio: 120,
-    imagen: "public/img/canasta.jpg",
-  },
-];
 
 // =====================================================
 // 2. CONFIGURACIÓN
@@ -70,8 +29,11 @@ const imagenReemplazo =
 // 3. FUNCIONES
 // =====================================================
 
-// Convierte 45 en "Bs. 45,00"
+// Convierte 45 en "Bs. 45,00" (si el precio es 0, muestra "Precio a consultar")
 function formatearPrecio(precio) {
+  if (precio === 0) {
+    return "Precio a consultar";
+  }
   const numero = precio.toLocaleString("es-BO", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -86,7 +48,8 @@ function crearTarjeta(producto) {
 
   const imagen = document.createElement("img");
   imagen.className = "tarjeta__imagen";
-  imagen.src = producto.imagen;
+  // encodeURI permite nombres de archivo con espacios
+  imagen.src = encodeURI(producto.imagen);
   imagen.alt = producto.nombre;
   imagen.loading = "lazy";
   imagen.width = 400;
@@ -117,16 +80,25 @@ function crearTarjeta(producto) {
   return tarjeta;
 }
 
-// Dibuja todas las tarjetas dentro de la grilla
-function mostrarCatalogo(listaProductos) {
+// Muestra un mensaje de texto en lugar de las tarjetas
+function mostrarMensaje(texto) {
   const grilla = document.getElementById("grilla-productos");
   grilla.innerHTML = "";
+  const mensaje = document.createElement("p");
+  mensaje.className = "grilla__vacia";
+  mensaje.textContent = texto;
+  grilla.appendChild(mensaje);
+}
 
+// Dibuja todas las tarjetas dentro de la grilla
+function mostrarCatalogo(listaProductos) {
   if (listaProductos.length === 0) {
-    grilla.innerHTML = '<p class="grilla__vacia">Pronto tendremos productos nuevos.</p>';
+    mostrarMensaje("Pronto tendremos productos nuevos.");
     return;
   }
 
+  const grilla = document.getElementById("grilla-productos");
+  grilla.innerHTML = "";
   listaProductos.forEach(function (producto) {
     grilla.appendChild(crearTarjeta(producto));
   });
@@ -140,5 +112,10 @@ function mostrarAnioActual() {
 // =====================================================
 // 4. INICIO
 // =====================================================
-mostrarCatalogo(productos);
+// Si falta productos.js, avisamos cómo generarlo
+if (typeof productos === "undefined") {
+  mostrarMensaje("No se encontró productos.js. Ejecuta: node generar-productos.js");
+} else {
+  mostrarCatalogo(productos);
+}
 mostrarAnioActual();
