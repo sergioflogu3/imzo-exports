@@ -3,25 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Catálogo de productos de El Mercadito de la Esquina">
-  <title>El Mercadito de la Esquina | Catálogo</title>
+  <meta name="description" content="IMZO Importaciones: catálogo de ropa, accesorios, belleza y hogar">
+  <title>IMZO Importaciones | Catálogo</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
   <!-- ===== ENCABEZADO ===== -->
   <header class="encabezado">
-    <div class="encabezado__contenido">
-      <p class="encabezado__sello">Desde 2015 · Hecho con cariño</p>
-      <h1 class="encabezado__marca">El Mercadito<br>de la Esquina</h1>
-      <p class="encabezado__subtitulo">Catálogo de Productos</p>
-    </div>
+    <h1 class="encabezado__marca">
+      <img class="logo" src="public/logo.png" alt="IMZO Importaciones" width="643" height="438">
+    </h1>
+    <p class="encabezado__subtitulo">Catálogo de productos</p>
   </header>
 
   <!-- ===== CATÁLOGO ===== -->
   <main class="catalogo">
     <p class="catalogo__intro">
-      Mira nuestros productos y escríbenos por WhatsApp para pedir el tuyo.
+      Toca una foto para verla en grande. Escríbenos por WhatsApp para consultar talla y disponibilidad.
     </p>
 
     <!-- app.js llena esta sección con las tarjetas de productos -->
@@ -33,10 +32,10 @@
     <div class="pie__contenido">
 
       <div class="pie__bloque">
-        <h2 class="pie__titulo">¿Te interesa algún producto?</h2>
-        <p>Escríbenos y te respondemos lo antes posible.</p>
+        <h2 class="pie__titulo">¿Te gustó algún producto?</h2>
+        <p>Escríbenos con el nombre del producto y te respondemos lo antes posible.</p>
         <a class="boton-whatsapp"
-           href="https://wa.me/59170000000?text=Hola%2C%20vi%20su%20cat%C3%A1logo%20y%20quiero%20consultar%20por%20un%20producto"
+           href="https://wa.me/59170000000?text=Hola%20IMZO%2C%20vi%20su%20cat%C3%A1logo%20y%20quiero%20consultar%20por%20un%20producto"
            target="_blank" rel="noopener">
           WhatsApp: +591 700 00000
         </a>
@@ -66,10 +65,19 @@
     </div>
 
     <p class="pie__derechos">
-      © <span id="anio-actual"></span> El Mercadito de la Esquina · Rosa Mamani.
-      Todos los derechos reservados.
+      © <span id="anio-actual"></span> IMZO Importaciones. Todos los derechos reservados.
     </p>
   </footer>
+
+  <!-- ===== VISOR DE FOTOS (se abre al tocar una foto) ===== -->
+  <dialog id="visor" class="visor" aria-labelledby="visor-titulo">
+    <div class="visor__barra">
+      <h2 id="visor-titulo" class="visor__titulo"></h2>
+      <button type="button" id="visor-cerrar" class="visor__cerrar">Cerrar</button>
+    </div>
+    <div id="visor-fotos" class="visor__fotos"></div>
+    <p id="visor-precio" class="visor__precio"></p>
+  </dialog>
 
   <!-- productos.js lo genera generar-productos.js a partir de productos.json -->
   <script src="productos.js"></script>

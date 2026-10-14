@@ -16,12 +16,12 @@ const simboloMoneda = "Bs.";
 const imagenReemplazo =
   "data:image/svg+xml;charset=UTF-8," +
   encodeURIComponent(
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">' +
-      '<rect width="400" height="300" fill="#f3e9da"/>' +
-      '<rect x="150" y="95" width="100" height="80" rx="8" fill="none" stroke="#c9a77c" stroke-width="6"/>' +
-      '<circle cx="178" cy="122" r="10" fill="#c9a77c"/>' +
-      '<path d="M156 168 l30 -30 l20 18 l14 -12 l24 24" fill="none" stroke="#c9a77c" stroke-width="6"/>' +
-      '<text x="200" y="215" font-family="sans-serif" font-size="18" fill="#9c7a52" text-anchor="middle">Imagen no disponible</text>' +
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">' +
+      '<rect width="400" height="500" fill="#f3e6dc"/>' +
+      '<rect x="150" y="195" width="100" height="80" rx="8" fill="none" stroke="#c9ad8c" stroke-width="6"/>' +
+      '<circle cx="178" cy="222" r="10" fill="#c9ad8c"/>' +
+      '<path d="M156 268 l30 -30 l20 18 l14 -12 l24 24" fill="none" stroke="#c9ad8c" stroke-width="6"/>' +
+      '<text x="200" y="315" font-family="sans-serif" font-size="18" fill="#6b5a4e" text-anchor="middle">Imagen no disponible</text>' +
     "</svg>"
   );
 
@@ -46,19 +46,19 @@ function crearTarjeta(producto) {
   const tarjeta = document.createElement("article");
   tarjeta.className = "tarjeta";
 
-  const imagen = document.createElement("img");
-  imagen.className = "tarjeta__imagen";
-  // encodeURI permite nombres de archivo con espacios
-  imagen.src = encodeURI(producto.imagen);
-  imagen.alt = producto.nombre;
-  imagen.loading = "lazy";
-  imagen.width = 400;
-  imagen.height = 300;
-  // Si la imagen falla, mostramos la imagen de reemplazo (una sola vez)
-  imagen.onerror = function () {
-    imagen.onerror = null;
-    imagen.src = imagenReemplazo;
+  // La foto es un botón: al tocarla se abre el visor con las fotos en grande
+  const botonFoto = document.createElement("button");
+  botonFoto.type = "button";
+  botonFoto.className = "tarjeta__foto";
+  botonFoto.setAttribute("aria-label", "Ver fotos de " + producto.nombre);
+  botonFoto.onclick = function () {
+    abrirVisor(producto);
   };
+
+  const imagen = crearImagen(producto.imagen, producto.nombre);
+  imagen.className = "tarjeta__imagen";
+  imagen.loading = "lazy";
+  botonFoto.appendChild(imagen);
 
   const cuerpo = document.createElement("div");
   cuerpo.className = "tarjeta__cuerpo";
@@ -76,8 +76,61 @@ function crearTarjeta(producto) {
   precio.textContent = formatearPrecio(producto.precio);
 
   cuerpo.append(titulo, descripcion, precio);
-  tarjeta.append(imagen, cuerpo);
+  tarjeta.append(botonFoto, cuerpo);
   return tarjeta;
+}
+
+// Crea una imagen; si falla, muestra la imagen de reemplazo (una sola vez)
+function crearImagen(ruta, textoAlternativo) {
+  const imagen = document.createElement("img");
+  // encodeURI permite nombres de archivo con espacios
+  imagen.src = encodeURI(ruta);
+  imagen.alt = textoAlternativo;
+  imagen.width = 400;
+  imagen.height = 500;
+  imagen.onerror = function () {
+    imagen.onerror = null;
+    imagen.src = imagenReemplazo;
+  };
+  return imagen;
+}
+
+// Abre el visor con la foto principal en grande y, si existe, la imagen alterna
+function abrirVisor(producto) {
+  const visor = document.getElementById("visor");
+  const fotos = document.getElementById("visor-fotos");
+
+  document.getElementById("visor-titulo").textContent = producto.nombre;
+  document.getElementById("visor-precio").textContent = formatearPrecio(producto.precio);
+
+  fotos.innerHTML = "";
+  fotos.appendChild(crearImagen(producto.imagen, producto.nombre));
+
+  if (producto.imagen_alterna) {
+    const alterna = crearImagen(producto.imagen_alterna, producto.nombre + " (otra vista)");
+    // Si la imagen alterna no carga, simplemente no se muestra
+    alterna.onerror = function () {
+      alterna.remove();
+    };
+    fotos.appendChild(alterna);
+  }
+
+  visor.showModal();
+}
+
+// Prepara los botones para cerrar el visor
+function prepararVisor() {
+  const visor = document.getElementById("visor");
+  document.getElementById("visor-cerrar").onclick = function () {
+    visor.close();
+  };
+  // Tocar fuera del recuadro (en el fondo oscuro) también cierra
+  visor.onclick = function (evento) {
+    if (evento.target === visor) {
+      visor.close();
+    }
+  };
+  // La tecla Escape ya cierra el visor por defecto
 }
 
 // Muestra un mensaje de texto en lugar de las tarjetas
@@ -118,4 +171,5 @@ if (typeof productos === "undefined") {
 } else {
   mostrarCatalogo(productos);
 }
+prepararVisor();
 mostrarAnioActual();

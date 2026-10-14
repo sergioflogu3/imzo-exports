@@ -7,6 +7,8 @@
 //
 // - productos.json: aquí editas nombres, descripciones y precios.
 // - productos.js: copia que usa la página (no la edites a mano).
+// - Segunda foto de un producto: nómbrala igual + "_alterna"
+//   (ej. Zapallita.jpeg y Zapallita_alterna.jpeg).
 // Tus ediciones se conservan al volver a ejecutar el script.
 // =====================================================
 const fs = require("fs");
@@ -16,6 +18,9 @@ const carpetaImagenes = path.join(__dirname, "public", "img");
 const archivoJson = path.join(__dirname, "productos.json");
 const archivoJs = path.join(__dirname, "productos.js");
 const extensionesValidas = [".jpg", ".jpeg", ".png", ".webp", ".gif"];
+// Las fotos que terminan en "_alterna" no son productos: son la segunda foto
+// del producto con el mismo nombre (ej. Zapallita.jpeg + Zapallita_alterna.jpeg)
+const sufijoAlterna = "_alterna";
 
 // Lista los nombres de archivo de imagen dentro de public/img/
 function leerImagenes() {
@@ -54,8 +59,31 @@ function nombreDesdeArchivo(archivo) {
   return conEspacios.charAt(0).toUpperCase() + conEspacios.slice(1);
 }
 
+// ¿Es una imagen alterna? (ej. "Zapallita_alterna.jpeg")
+function esAlterna(archivo) {
+  return path.parse(archivo).name.toLowerCase().endsWith(sufijoAlterna);
+}
+
+// Busca la imagen alterna de un archivo principal: "Zapallita.jpeg" -> "Zapallita_alterna.jpg"
+// Devuelve "" si no existe
+function buscarAlterna(archivoPrincipal, alternas) {
+  const nombreBuscado = (path.parse(archivoPrincipal).name + sufijoAlterna).toLowerCase();
+  const encontrada = alternas.find(function (archivo) {
+    return path.parse(archivo).name.toLowerCase() === nombreBuscado;
+  });
+  return encontrada ? "public/img/" + encontrada : "";
+}
+
 // Combina los productos guardados con las imágenes encontradas
-function combinarProductos(imagenes, productosGuardados) {
+function combinarProductos(todasLasImagenes, productosGuardados) {
+  const imagenes = todasLasImagenes.filter(function (archivo) {
+    return !esAlterna(archivo);
+  });
+  const alternas = todasLasImagenes.filter(esAlterna);
+  const rutasAlternas = alternas.map(function (archivo) {
+    return "public/img/" + archivo;
+  });
+
   const rutasImagenes = imagenes.map(function (archivo) {
     return "public/img/" + archivo;
   });
@@ -66,6 +94,14 @@ function combinarProductos(imagenes, productosGuardados) {
   });
   const eliminados = productosGuardados.filter(function (producto) {
     return !rutasImagenes.includes(producto.imagen);
+  });
+
+  // Imagen alterna: se respeta la que ya tenga (si el archivo existe);
+  // si no, se busca "<nombre>_alterna" en la carpeta
+  conservados.forEach(function (producto) {
+    if (!rutasAlternas.includes(producto.imagen_alterna)) {
+      producto.imagen_alterna = buscarAlterna(path.basename(producto.imagen), alternas);
+    }
   });
 
   // Siguiente id libre
@@ -90,6 +126,7 @@ function combinarProductos(imagenes, productosGuardados) {
         descripcion: "Descripción del producto",
         precio: 0,
         imagen: ruta,
+        imagen_alterna: buscarAlterna(archivo, alternas),
       });
       siguienteId++;
     }

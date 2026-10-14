@@ -1,24 +1,21 @@
 /* =====================================================
    1. VARIABLES (colores y tipografías)
-   Cambia aquí la paleta de toda la página.
+   Colores tomados del logo de IMZO: rosado claro, negro y dorado.
    ===================================================== */
 :root {
-  --color-fondo: #fbf6ee;        /* crema */
+  --color-fondo: #fbf6f2;        /* rosado muy claro */
+  --color-logo: #f7eae1;         /* mismo fondo que logo.png */
   --color-tarjeta: #ffffff;
-  --color-texto: #2e2620;        /* marrón muy oscuro */
-  --color-texto-suave: #6b5d52;
-  --color-marca: #b4492f;        /* terracota */
-  --color-marca-oscuro: #8a3421;
-  --color-acento: #e9b44c;       /* mostaza */
+  --color-texto: #1c1614;        /* negro del logo */
+  --color-texto-suave: #6b5a4e;
+  --color-dorado: #b68c57;       /* dorado del logo (adornos, no texto) */
+  --color-dorado-claro: #d9b98a; /* dorado legible sobre fondo oscuro */
   --color-whatsapp: #1f8a4c;
-  --color-borde: #eadfcf;
+  --color-borde: #ecdcd0;
 
-  --fuente-titulos: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  /* Serif clásica, parecida a la del logo */
+  --fuente-titulos: Didot, "Bodoni 72", "Bodoni MT", Georgia, serif;
   --fuente-texto: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-
-  --radio: 14px;
-  --sombra: 0 2px 6px rgba(46, 38, 32, 0.08);
-  --sombra-hover: 0 10px 24px rgba(46, 38, 32, 0.14);
 }
 
 /* =====================================================
@@ -50,52 +47,33 @@ a {
 
 /* =====================================================
    3. ENCABEZADO
-   El borde inferior a rayas imita el toldo de un puesto de mercado.
+   El fondo es igual al del logo para que la imagen no tenga "caja".
    ===================================================== */
 .encabezado {
-  background-color: var(--color-marca);
-  color: #fff;
+  background-color: var(--color-logo);
   text-align: center;
-  padding: 2.5rem 1rem 3rem;
-  position: relative;
-}
-
-.encabezado::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -14px;
-  height: 14px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--color-marca) 0 28px,
-    var(--color-acento) 28px 56px
-  );
-}
-
-.encabezado__sello {
-  margin: 0 0 0.75rem;
-  font-size: 0.85rem;
-  letter-spacing: 0.04em;
-  opacity: 0.85;
+  padding: 1.25rem 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-dorado);
 }
 
 .encabezado__marca {
   margin: 0;
-  font-family: var(--fuente-titulos);
-  font-weight: 700;
-  font-size: clamp(2.2rem, 9vw, 4rem);
-  line-height: 1.05;
+}
+
+.logo {
+  width: min(100%, 360px);
+  height: auto;
+  margin: 0 auto;
+  /* El archivo del logo trae un borde oscuro de 2px: lo recortamos */
+  clip-path: inset(3px);
 }
 
 .encabezado__subtitulo {
-  display: inline-block;
-  margin: 1rem 0 0;
-  padding: 0.3rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 999px;
-  font-size: 0.95rem;
+  margin: 0.25rem 0 0;
+  font-family: var(--fuente-titulos);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--color-texto-suave);
 }
 
 /* =====================================================
@@ -106,95 +84,190 @@ a {
 .catalogo {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2.75rem 1rem 3rem;
+  padding: 2rem 1rem 3rem;
 }
 
 .catalogo__intro {
-  margin: 0 auto 1.75rem;
-  max-width: 34rem;
-  text-align: center;
+  margin: 0 0 1.75rem;
+  max-width: 36rem;
   color: var(--color-texto-suave);
 }
 
 .grilla {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
-  gap: 1.25rem;
+  gap: 1.5rem 1.25rem;
 }
 
 .grilla__vacia {
   grid-column: 1 / -1;
-  text-align: center;
   color: var(--color-texto-suave);
 }
 
 /* =====================================================
    5. TARJETA DE PRODUCTO
+   El precio cuelga sobre la foto como la etiqueta de una prenda.
    ===================================================== */
 .tarjeta {
+  position: relative;
   display: flex;
   flex-direction: column;
   background-color: var(--color-tarjeta);
   border: 1px solid var(--color-borde);
-  border-radius: var(--radio);
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: var(--sombra);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Botón que envuelve la foto (abre el visor) */
+.tarjeta__foto {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.tarjeta__foto:focus-visible {
+  outline: 3px solid var(--color-dorado);
+  outline-offset: -3px;
+}
+
+/* Fotos verticales (4:5), igual que las fotos de ropa */
 .tarjeta__imagen {
   width: 100%;
   height: auto;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
-  background-color: #f3e9da;
+  background-color: var(--color-borde);
 }
 
 .tarjeta__cuerpo {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 1rem 1.1rem 1.2rem;
+  padding: 0.9rem 1rem 1.1rem;
 }
 
 .tarjeta__titulo {
-  margin: 0 0 0.35rem;
+  margin: 0 0 0.3rem;
   font-family: var(--fuente-titulos);
-  font-size: 1.25rem;
-  line-height: 1.25;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .tarjeta__descripcion {
-  margin: 0 0 1rem;
+  margin: 0;
   font-size: 0.95rem;
   color: var(--color-texto-suave);
-  flex-grow: 1; /* empuja el precio al fondo de la tarjeta */
 }
 
+/* ----- Etiqueta de precio ----- */
 .tarjeta__precio {
-  align-self: flex-start;
+  position: absolute;
+  top: 14px;
+  right: 12px;
   margin: 0;
-  padding: 0.3rem 0.8rem;
-  border-radius: 8px;
-  background-color: var(--color-acento);
-  font-size: 1.2rem;
+  padding: 0.3rem 0.8rem 0.3rem 1.6rem;
+  background-color: var(--color-texto);
+  color: var(--color-logo);
   font-weight: 700;
+  border-radius: 3px;
+  pointer-events: none; /* deja tocar la foto que está debajo */
 }
 
-/* Efecto al pasar el mouse solo en dispositivos que lo tienen (no táctiles) */
-@media (hover: hover) {
-  .tarjeta:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--sombra-hover);
-  }
+/* Agujero de la etiqueta */
+.tarjeta__precio::before {
+  content: "";
+  position: absolute;
+  left: 0.55rem;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background-color: var(--color-logo);
+  box-shadow: inset 0 0 0 2px var(--color-dorado);
 }
 
 /* =====================================================
-   6. PIE DE PÁGINA
+   6. VISOR DE FOTOS (ventana que se abre al tocar una foto)
+   ===================================================== */
+.visor {
+  width: min(100% - 2rem, 960px);
+  max-height: calc(100% - 2rem);
+  padding: 1rem;
+  border: 0;
+  border-radius: 4px;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+}
+
+.visor::backdrop {
+  background-color: rgba(28, 22, 20, 0.8);
+}
+
+.visor__barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.visor__titulo {
+  margin: 0;
+  font-family: var(--fuente-titulos);
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.visor__cerrar {
+  flex-shrink: 0;
+  min-height: 44px;
+  padding: 0 1.1rem;
+  border: 1px solid var(--color-texto);
+  border-radius: 999px;
+  background: none;
+  color: var(--color-texto);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.visor__cerrar:focus-visible {
+  outline: 3px solid var(--color-dorado);
+  outline-offset: 2px;
+}
+
+/* Una foto debajo de otra en móvil; lado a lado en pantallas grandes */
+.visor__fotos {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.visor__fotos img {
+  width: 100%;
+  height: auto;
+  max-height: 75vh;
+  object-fit: contain;
+  background-color: var(--color-borde);
+  border-radius: 3px;
+}
+
+.visor__precio {
+  margin: 0.75rem 0 0;
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+/* =====================================================
+   7. PIE DE PÁGINA
    ===================================================== */
 .pie {
   background-color: var(--color-texto);
-  color: #f3ebe1;
+  color: #f3e8df;
   padding: 2.5rem 1rem 1.5rem;
 }
 
@@ -208,12 +281,13 @@ a {
 .pie__titulo {
   margin: 0 0 0.6rem;
   font-family: var(--fuente-titulos);
-  font-size: 1.25rem;
-  color: var(--color-acento);
+  font-size: 1.3rem;
+  color: var(--color-dorado-claro);
 }
 
 .pie__bloque p {
   margin: 0 0 1rem;
+  max-width: 30rem;
 }
 
 .pie__lista {
@@ -250,33 +324,45 @@ a {
   background-color: #176c3b;
 }
 
-.pie__telefono {
+.pie__bloque .pie__telefono {
+  margin-top: 0.75rem;
   font-size: 0.95rem;
-  margin-top: 0.75rem !important;
 }
 
 .pie__derechos {
   max-width: 1200px;
   margin: 2rem auto 0;
   padding-top: 1.25rem;
-  border-top: 1px solid rgba(243, 235, 225, 0.2);
+  border-top: 1px solid rgba(217, 185, 138, 0.3);
   font-size: 0.85rem;
-  text-align: center;
   opacity: 0.75;
 }
 
 /* Contorno visible al navegar con teclado */
 a:focus-visible {
-  outline: 3px solid var(--color-acento);
+  outline: 3px solid var(--color-dorado-claro);
   outline-offset: 3px;
 }
 
 /* =====================================================
-   7. PANTALLAS MÁS GRANDES (tablet y escritorio)
+   8. PANTALLAS MÁS GRANDES (tablet y escritorio)
    ===================================================== */
 @media (min-width: 768px) {
   .encabezado {
-    padding: 3.5rem 1rem 4rem;
+    padding: 1.75rem 1.5rem 2rem;
+  }
+
+  .catalogo {
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  .visor {
+    padding: 1.5rem;
+  }
+
+  /* Si hay 2 fotos, se ponen lado a lado */
+  .visor__fotos:has(img + img) {
+    grid-template-columns: 1fr 1fr;
   }
 
   .pie__contenido {
