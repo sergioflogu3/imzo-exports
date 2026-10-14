@@ -1,0 +1,285 @@
+/* =====================================================
+   1. VARIABLES (colores y tipografías)
+   Cambia aquí la paleta de toda la página.
+   ===================================================== */
+:root {
+  --color-fondo: #fbf6ee;        /* crema */
+  --color-tarjeta: #ffffff;
+  --color-texto: #2e2620;        /* marrón muy oscuro */
+  --color-texto-suave: #6b5d52;
+  --color-marca: #b4492f;        /* terracota */
+  --color-marca-oscuro: #8a3421;
+  --color-acento: #e9b44c;       /* mostaza */
+  --color-whatsapp: #1f8a4c;
+  --color-borde: #eadfcf;
+
+  --fuente-titulos: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --fuente-texto: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --radio: 14px;
+  --sombra: 0 2px 6px rgba(46, 38, 32, 0.08);
+  --sombra-hover: 0 10px 24px rgba(46, 38, 32, 0.14);
+}
+
+/* =====================================================
+   2. BASE
+   ===================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fuente-texto);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--color-texto);
+  background-color: var(--color-fondo);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+/* =====================================================
+   3. ENCABEZADO
+   El borde inferior a rayas imita el toldo de un puesto de mercado.
+   ===================================================== */
+.encabezado {
+  background-color: var(--color-marca);
+  color: #fff;
+  text-align: center;
+  padding: 2.5rem 1rem 3rem;
+  position: relative;
+}
+
+.encabezado::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -14px;
+  height: 14px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-marca) 0 28px,
+    var(--color-acento) 28px 56px
+  );
+}
+
+.encabezado__sello {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+}
+
+.encabezado__marca {
+  margin: 0;
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 9vw, 4rem);
+  line-height: 1.05;
+}
+
+.encabezado__subtitulo {
+  display: inline-block;
+  margin: 1rem 0 0;
+  padding: 0.3rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  font-size: 0.95rem;
+}
+
+/* =====================================================
+   4. CATÁLOGO (grilla responsiva)
+   auto-fill + minmax crea tantas columnas como quepan:
+   1 en móvil, 2 en tablet, 3 o 4 en escritorio.
+   ===================================================== */
+.catalogo {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.75rem 1rem 3rem;
+}
+
+.catalogo__intro {
+  margin: 0 auto 1.75rem;
+  max-width: 34rem;
+  text-align: center;
+  color: var(--color-texto-suave);
+}
+
+.grilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  gap: 1.25rem;
+}
+
+.grilla__vacia {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--color-texto-suave);
+}
+
+/* =====================================================
+   5. TARJETA DE PRODUCTO
+   ===================================================== */
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-tarjeta);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  overflow: hidden;
+  box-shadow: var(--sombra);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tarjeta__imagen {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background-color: #f3e9da;
+}
+
+.tarjeta__cuerpo {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 1rem 1.1rem 1.2rem;
+}
+
+.tarjeta__titulo {
+  margin: 0 0 0.35rem;
+  font-family: var(--fuente-titulos);
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.tarjeta__descripcion {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  color: var(--color-texto-suave);
+  flex-grow: 1; /* empuja el precio al fondo de la tarjeta */
+}
+
+.tarjeta__precio {
+  align-self: flex-start;
+  margin: 0;
+  padding: 0.3rem 0.8rem;
+  border-radius: 8px;
+  background-color: var(--color-acento);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+/* Efecto al pasar el mouse solo en dispositivos que lo tienen (no táctiles) */
+@media (hover: hover) {
+  .tarjeta:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sombra-hover);
+  }
+}
+
+/* =====================================================
+   6. PIE DE PÁGINA
+   ===================================================== */
+.pie {
+  background-color: var(--color-texto);
+  color: #f3ebe1;
+  padding: 2.5rem 1rem 1.5rem;
+}
+
+.pie__contenido {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  gap: 2rem;
+}
+
+.pie__titulo {
+  margin: 0 0 0.6rem;
+  font-family: var(--fuente-titulos);
+  font-size: 1.25rem;
+  color: var(--color-acento);
+}
+
+.pie__bloque p {
+  margin: 0 0 1rem;
+}
+
+.pie__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pie__lista li {
+  padding: 0.3rem 0;
+}
+
+/* Enlaces con área de toque cómoda (mínimo 44px) */
+.pie__lista a {
+  display: inline-block;
+  min-height: 44px;
+  line-height: 44px;
+}
+
+.boton-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 1.25rem;
+  border-radius: 999px;
+  background-color: var(--color-whatsapp);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.boton-whatsapp:hover,
+.boton-whatsapp:focus-visible {
+  background-color: #176c3b;
+}
+
+.pie__telefono {
+  font-size: 0.95rem;
+  margin-top: 0.75rem !important;
+}
+
+.pie__derechos {
+  max-width: 1200px;
+  margin: 2rem auto 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(243, 235, 225, 0.2);
+  font-size: 0.85rem;
+  text-align: center;
+  opacity: 0.75;
+}
+
+/* Contorno visible al navegar con teclado */
+a:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 3px;
+}
+
+/* =====================================================
+   7. PANTALLAS MÁS GRANDES (tablet y escritorio)
+   ===================================================== */
+@media (min-width: 768px) {
+  .encabezado {
+    padding: 3.5rem 1rem 4rem;
+  }
+
+  .pie__contenido {
+    grid-template-columns: 1.4fr 1fr 1fr;
+  }
+}

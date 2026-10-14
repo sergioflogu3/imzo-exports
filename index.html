@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Catálogo de productos de El Mercadito de la Esquina">
+  <title>El Mercadito de la Esquina | Catálogo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ===== ENCABEZADO ===== -->
+  <header class="encabezado">
+    <div class="encabezado__contenido">
+      <p class="encabezado__sello">Desde 2015 · Hecho con cariño</p>
+      <h1 class="encabezado__marca">El Mercadito<br>de la Esquina</h1>
+      <p class="encabezado__subtitulo">Catálogo de Productos</p>
+    </div>
+  </header>
+
+  <!-- ===== CATÁLOGO ===== -->
+  <main class="catalogo">
+    <p class="catalogo__intro">
+      Mira nuestros productos y escríbenos por WhatsApp para pedir el tuyo.
+    </p>
+
+    <!-- app.js llena esta sección con las tarjetas de productos -->
+    <section id="grilla-productos" class="grilla" aria-label="Lista de productos"></section>
+  </main>
+
+  <!-- ===== PIE DE PÁGINA ===== -->
+  <footer class="pie">
+    <div class="pie__contenido">
+
+      <div class="pie__bloque">
+        <h2 class="pie__titulo">¿Te interesa algún producto?</h2>
+        <p>Escríbenos y te respondemos lo antes posible.</p>
+        <a class="boton-whatsapp"
+           href="https://wa.me/59170000000?text=Hola%2C%20vi%20su%20cat%C3%A1logo%20y%20quiero%20consultar%20por%20un%20producto"
+           target="_blank" rel="noopener">
+          WhatsApp: +591 700 00000
+        </a>
+        <p class="pie__telefono">
+          o llámanos al <a href="tel:+59170000000">+591 700 00000</a>
+        </p>
+      </div>
+
+      <div class="pie__bloque">
+        <h2 class="pie__titulo">Horarios de atención</h2>
+        <ul class="pie__lista">
+          <li>Lunes a viernes: 9:00 a 19:00</li>
+          <li>Sábados: 9:00 a 13:00</li>
+          <li>Domingos: cerrado</li>
+        </ul>
+      </div>
+
+      <div class="pie__bloque">
+        <h2 class="pie__titulo">Síguenos</h2>
+        <ul class="pie__lista">
+          <li><a href="#" aria-label="Facebook (próximamente)">Facebook</a></li>
+          <li><a href="#" aria-label="Instagram (próximamente)">Instagram</a></li>
+          <li><a href="#" aria-label="TikTok (próximamente)">TikTok</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <p class="pie__derechos">
+      © <span id="anio-actual"></span> El Mercadito de la Esquina · Rosa Mamani.
+      Todos los derechos reservados.
+    </p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
