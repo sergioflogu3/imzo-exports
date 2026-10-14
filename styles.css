@@ -88,8 +88,9 @@ a {
 }
 
 .catalogo__intro {
-  margin: 0 0 1.75rem;
+  margin: 0 auto 1.75rem;
   max-width: 36rem;
+  text-align: center;
   color: var(--color-texto-suave);
 }
 

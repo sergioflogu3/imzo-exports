@@ -8,6 +8,8 @@ aporte.
   que actualiza `productos.json` (editable) y `productos.js` (copia que carga la página).
 - Segunda foto: `<nombre>_alterna.<ext>` se guarda en `imagen_alterna` (no crea producto).
 - Al tocar una foto se abre un `<dialog>` (visor) con la foto grande + la alterna.
+- `dist/`: copia lista para subir al dominio (index.html, styles.css, app.js, productos.js, public/).
+  Se arma a mano; hay que volver a copiar tras cada cambio.
 - Diseño con colores del logo (rosado #f7eae1, negro, dorado); precio como etiqueta negra.
 
 ## Decisiones (y por qué)
@@ -29,7 +31,6 @@ aporte.
   Nunca copiar/crear archivos de prueba en `public/img/`; usar el scratchpad.
 
 ## Próximos pasos
-- Reponer `public/img/zapallita_alterna.jpeg` (se sobrescribió por error con la foto Kpop).
 - Verificar el visor en el navegador (no se pudo capturar en headless).
-- Corregir `id` repetido (ambos productos tienen `id: 1`) y la errata "guerrea" en `productos.json`.
-- Poner número de WhatsApp y redes reales en `index.html`.
+- 20 productos; 9 sin descripción ni precio (Coneja, Gatubela, Harry 1-2, Leon, Militar, Mostacho, Orejas, Selena). Erratas: "guerrea", "Farquuad".
+
